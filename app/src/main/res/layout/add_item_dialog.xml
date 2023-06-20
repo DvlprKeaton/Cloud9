@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="100dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Item"
+        android:layout_gravity="left"
+        android:textSize="50px"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textAllCaps="true"/>
+
+    <!-- Add Item Name EditText -->
+    <EditText
+        android:id="@+id/itemNameEditText"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="50px"
+        android:hint="Item Name"
+        android:inputType="textCapWords"/>
+
+    <!-- Add Item Category Spinner -->
+    <Spinner
+        android:id="@+id/itemCategorySpinner"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_margin="50px"
+        android:layout_height="wrap_content"
+        android:hint="Category" />
+
+    <!-- Item Quantity Picker -->
+    <LinearLayout
+        android:id="@+id/quantityPickerLayout"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="50px"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/decreaseButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="-" />
+
+        <EditText
+            android:id="@+id/quantityTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="20dp"
+            android:inputType="number"/>
+
+        <Button
+            android:id="@+id/increaseButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="+" />
+
+    </LinearLayout>
+
+    <!-- Add Button -->
+    <Button
+        android:id="@+id/addItemButton"
+        android:layout_width="250dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Add" />
+
+</LinearLayout>

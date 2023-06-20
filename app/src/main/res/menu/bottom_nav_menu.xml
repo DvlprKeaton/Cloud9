@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_espresso"
+        android:title="ESPRESSO BASED" />
+    <item
+        android:id="@+id/menu_fruit_tea"
+        android:title="FRUIT TEA" />
+    <item
+        android:id="@+id/menu_non_espresso"
+        android:title="NON-ESPRESSO" />
+    <item
+        android:id="@+id/menu_frappe"
+        android:title="FRAPPE" />
+    <item
+        android:id="@+id/menu_sparkling_ade"
+        android:title="SPARKLING ADE" />
+    <item
+        android:id="@+id/menu_add_ons"
+        android:title="ADD ONS" />
+</menu>

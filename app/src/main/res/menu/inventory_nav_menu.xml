@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/inventory_disposables"
+        android:title="Disposables" />
+    <item
+        android:id="@+id/inventory_ingredients"
+        android:title="Ingredients" />
+    <item
+        android:id="@+id/inventory_pastries"
+        android:title="Pastries" />
+    <item
+        android:id="@+id/inventory_beverages"
+        android:title="Beverages" />
+    <item
+        android:id="@+id/inventory_food"
+        android:title="Food" />
+</menu>

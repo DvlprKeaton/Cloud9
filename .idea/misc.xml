@@ -1,0 +1,34 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/activity_menu.xml" value="0.15158924205378974" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/fragment_add_ons.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/fragment_espresso.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/fragment_frappe.xml" value="0.3875" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/fragment_fruit_tea.xml" value="0.3875" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/fragment_menu.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/fragment_non_espresso.xml" value="0.3875" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/fragment_sparkling_ade.xml" value="0.3875" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/layout/fragment_tea.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/menu/grid_item_button.xml" value="0.25416666666666665" />
+        <entry key="..\:/AndroidStudioProjects/POS/app/src/main/res/menu/left_nav_menu.xml" value="0.3875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.3385416666666667" />
+      </ProjectState>
+    </option>
+  </component>
+</project>

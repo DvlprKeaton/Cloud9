@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="100dp">
+
+    <!-- Full Name EditText -->
+    <EditText
+        android:id="@+id/fullNameEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:hint="Full Name" />
+
+    <!-- Username EditText -->
+    <EditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:hint="Username" />
+
+    <!-- Password EditText -->
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <!-- Password EditText -->
+    <EditText
+        android:id="@+id/conpasswordEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword" />
+
+    <!-- Add Item Category Spinner -->
+    <Spinner
+        android:id="@+id/itemCategorySpinner"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_margin="50px"
+        android:layout_height="wrap_content"
+        android:hint="Category" />
+
+    <!-- Add User Button -->
+    <Button
+        android:id="@+id/addUserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:text="Add User" />
+
+
+</LinearLayout>

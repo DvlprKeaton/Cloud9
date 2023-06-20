@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="100dp">
+
+    <!-- Add Item Name EditText -->
+    <EditText
+        android:id="@+id/itemNameEditText"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="50px"
+        android:hint="Item Name"
+        android:inputType="textCapWords"/>
+
+    <!-- Add Item Category Spinner -->
+    <Spinner
+        android:id="@+id/itemCategorySpinner"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_margin="50px"
+        android:layout_height="wrap_content"
+        android:hint="Category" />
+
+</LinearLayout>
