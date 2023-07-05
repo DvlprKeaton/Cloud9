@@ -15,6 +15,7 @@
         android:visibility="visible"
         app:menu="@menu/left_nav_menu" />
 
+
     <!-- Main Content -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -94,6 +95,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Checkout"
+                    android:layout_margin="10dp"/>
+
+                <!-- Add Item Button -->
+                <Button
+                    android:id="@+id/addMenuButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Add Item"
                     android:layout_margin="10dp"/>
 
             </LinearLayout>

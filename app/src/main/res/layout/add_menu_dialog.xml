@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="100dp">
+
+    <!-- Add Item Name EditText -->
+    <EditText
+        android:id="@+id/menuNameEditText"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="50px"
+        android:hint="Product Name"
+        android:inputType="textCapWords"
+        android:gravity="center" />
+
+    <!-- Add Item Category Spinner -->
+    <Spinner
+        android:id="@+id/menuCategorySpinner"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_margin="50px"
+        android:layout_height="wrap_content"
+        android:hint="Category"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <RadioButton
+            android:id="@+id/radioButtonHot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hot"
+            android:paddingRight="20dp"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonCold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cold" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/menuPriceEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Price"
+        android:inputType="numberDecimal"
+        android:gravity="center" />
+
+</LinearLayout>

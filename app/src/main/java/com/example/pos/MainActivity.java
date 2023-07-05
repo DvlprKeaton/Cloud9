@@ -11,7 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
+
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
 
                 // Perform login validation by querying the database
                 DataAccess dataAccess = new DataAccess(MainActivity.this);
-                boolean loginSuccessful = dataAccess.loginUser(username, password);
+                Map<String, String> loginDetails = dataAccess.loginUser(username, password);
 
+                boolean loginSuccessful = Boolean.parseBoolean(loginDetails.get("loginSuccessful"));
                 if (loginSuccessful) {
-                    // Successful login, save the logged-in user's username in the session
-                    dataAccess.saveLoggedInUser(MainActivity.this, username);
+                    String userRole = String.valueOf(loginDetails.get("userRole"));
+                    // Save the logged-in user's username and role in the session
+                    dataAccess.saveLoggedInUser(MainActivity.this, username, userRole);
 
                     // Show a toast message
                     Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 
