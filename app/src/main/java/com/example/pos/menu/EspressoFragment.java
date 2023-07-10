@@ -5,11 +5,13 @@ import static android.view.View.GONE;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.example.pos.ButtonData;
 import com.example.pos.ButtonTileAdapter;
 import com.example.pos.DataAccess;
 import com.example.pos.DatabaseHelper;
+import com.example.pos.LoadingScreenDialog;
 import com.example.pos.Menu;
 import com.example.pos.R;
 
@@ -49,10 +52,12 @@ public class EspressoFragment extends Fragment {
     private int maxQuantity = 1;
     private DatabaseHelper dbHelper;
     private String username;
-
+    private int orderNumber;
+    private LoadingScreenDialog loadingScreenDialog;
     public EspressoFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,8 +65,6 @@ public class EspressoFragment extends Fragment {
 
         gridLayout = view.findViewById(R.id.gridLayout);
         totalPriceValue = requireActivity().findViewById(R.id.totalPriceValue);
-        clearButton = requireActivity().findViewById(R.id.clearButton);
-        checkoutButton = requireActivity().findViewById(R.id.checkoutButton);
 
         dataAccess = new DataAccess(getActivity());
 
@@ -74,21 +77,12 @@ public class EspressoFragment extends Fragment {
         username = sharedPreferences.getString("username", "");
         String userRole = sharedPreferences.getString("userRole", "");
 
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                totalPrice = 0.0;
-                totalPriceValue.setText(String.format("%.2f", totalPrice));
-                // Add code to clear any other data or perform actions when Clear Button is clicked
-            }
-        });
 
-        checkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle the checkout button click event
-            }
-        });
+        orderNumber = dataAccess.orderNumber();
+        totalPrice = dataAccess.getPendingTotal(String.valueOf(orderNumber));
+        totalPriceValue.setText(String.format("%.2f", totalPrice));
+
+        loadingScreenDialog = new LoadingScreenDialog(requireContext());
 
         addButtonTiles();
 
@@ -119,28 +113,9 @@ public class EspressoFragment extends Fragment {
             buttonView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    totalPrice += price;
-                    totalPriceValue.setText(String.format("%.2f", totalPrice));
+
 
                     showOrderItem(String.valueOf(name), price);
-
-                   /* DataAccess dataAccess = new DataAccess(getContext());
-
-                    // Insert a transaction
-                    long transactionId = dataAccess.insertTransaction(120.00);
-                    if (transactionId != -1) {
-                        // Insertion successful
-                    } else {
-                        // Insertion failed
-                    }
-
-                    // Insert a user
-                    long userId = dataAccess.insertUser("John Doe");
-                    if (userId != -1) {
-                        // Insertion successful
-                    } else {
-                        // Insertion failed
-                    }*/
 
                 }
             });
@@ -242,11 +217,17 @@ public class EspressoFragment extends Fragment {
                 long newRowId = dataAccess.insertPendingOrders(name, quantity, orderType, discountAmount, discountType, null, 0.0, total, 0.0, addedBy);
 
                 if (newRowId != -1) {
-                    // Insertion was successful
+                    showLoadingScreen();
+                    Intent intent = new Intent(getActivity(), Menu.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(0, 0); // Remove transition animation
+                    getActivity().finish();
                     Toast.makeText(getContext(), "Order placed successfully", Toast.LENGTH_SHORT).show();
+                    hideLoadingScreen();
                 } else {
                     // Insertion failed
                     Toast.makeText(getContext(), "Failed to place order", Toast.LENGTH_SHORT).show();
+                    hideLoadingScreen();
                 }
 
                 dialog.dismiss(); // Close the dialog
@@ -326,9 +307,28 @@ public class EspressoFragment extends Fragment {
     }
 
     private double calculateTotal(int quantity, double price, double discount) {
-        double subtotal = quantity * price;
+        double subtotal = 1 * price;
         double total = subtotal - (subtotal * (discount / 100));
         return total;
     }
+
+    private void showLoadingScreen() {
+        loadingScreenDialog.show();
+    }
+
+    private void hideLoadingScreen() {
+        if (loadingScreenDialog != null && loadingScreenDialog.isShowing()) {
+            loadingScreenDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // Make sure to dismiss the loading screen dialog when the activity is destroyed
+        hideLoadingScreen();
+    }
+
 
 }

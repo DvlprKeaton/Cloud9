@@ -1,16 +1,24 @@
 package com.example.pos;
 
 // Import necessary libraries
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.Map;
 
@@ -19,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     // Declare the views
     private EditText usernameEditText, passwordEditText;
     private Button loginButton;
+
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Menu.class);
             startActivity(intent);
             finish();
+        }
+
+        // Step 1: Check if permissions are granted
+        if (checkPermissions()) {
+            // Permissions are already granted, proceed with your logic
+            // ...
+        } else {
+            // Step 2: Request permissions
+            requestPermissions();
         }
 
         // Set click listener for the login button
@@ -73,10 +92,82 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
+    // Step 3: Check for permissions
+    private boolean checkPermissions() {
+        int smsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
+        int storagePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return smsPermission == PackageManager.PERMISSION_GRANTED && storagePermission == PackageManager.PERMISSION_GRANTED;
+    }
 
+    private void requestPermissions() {
+        boolean smsPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS);
+        boolean storagePermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (smsPermissionRationale || storagePermissionRationale) {
+            // Show a dialog or message explaining why the permissions are needed
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Permission Request");
+            builder.setMessage("This app requires SMS permission to process GCash transactions and external storage permission to save receipts. Please grant the permissions to continue.");
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Request permissions again
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                }
+            });
+
+            builder.show();
+        } else {
+            // The user has previously denied the permission and selected "Don't ask again"
+            // Show a custom dialog explaining the situation and providing an option to grant the permission manually
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Permission Required");
+            builder.setMessage("To use this app, you need to grant SMS and Storage permissions. Please go to the app settings and enable the required permissions.");
+
+            builder.setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Open app settings
+                    openAppSettings();
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Close the app or perform any other action
+                    finish();
+                }
+            });
+
+            builder.show();
+        }
+    }
+
+    private void openAppSettings() {
+        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            // Check if the required permissions are granted after returning from the app settings
+            if (checkPermissions()) {
+                // Permissions granted, proceed with your logic
+                // ...
+            } else {
+                // Permissions not granted, handle accordingly (e.g., show a message and close the app)
+                Toast.makeText(this, "Permissions not granted. The app will now close.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
 
 }

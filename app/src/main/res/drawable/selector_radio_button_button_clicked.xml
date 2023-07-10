@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Radio button default state -->
+    <item>
+        <shape android:shape="rectangle">
+            <!-- Customize the default background color -->
+            <solid android:color="@color/secondary" />
+            <!-- Customize the default border color -->
+            <stroke
+                android:width="2dp"
+                android:color="@color/secondary" />
+            <!-- Customize the corner radius -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+</selector>

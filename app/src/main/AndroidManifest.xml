@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,25 +21,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.POS"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:screenOrientation="landscape">
         <activity
             android:name=".Staff"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".Inventory"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".Menu"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".SMSReceiver"
+            android:exported="false"
+            tools:ignore="WrongManifestParent">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

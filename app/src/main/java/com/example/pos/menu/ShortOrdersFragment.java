@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -28,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pos.ButtonData;
-import com.example.pos.ButtonGridAdapter;
 import com.example.pos.ButtonTileAdapter;
 import com.example.pos.DataAccess;
 import com.example.pos.DatabaseHelper;
@@ -39,7 +37,8 @@ import com.example.pos.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SparklingAdeFragment extends Fragment {
+
+public class ShortOrdersFragment extends Fragment {
 
     private GridLayout gridLayout;
     private ButtonTileAdapter buttonTileAdapter;
@@ -55,13 +54,14 @@ public class SparklingAdeFragment extends Fragment {
     private int orderNumber;
     private LoadingScreenDialog loadingScreenDialog;
 
-    public SparklingAdeFragment() {
+    public ShortOrdersFragment() {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_non_espresso, container, false);
+        View view = inflater.inflate(R.layout.fragment_short_orders, container, false);
 
         gridLayout = view.findViewById(R.id.gridLayout);
         totalPriceValue = requireActivity().findViewById(R.id.totalPriceValue);
@@ -90,7 +90,7 @@ public class SparklingAdeFragment extends Fragment {
     }
 
     private void addButtonTiles() {
-        List<ButtonData> buttons = dataAccess.getProductData("Sparkling Ade");
+        List<ButtonData> buttons = dataAccess.getProductData("Short Orders");
 
         String[] buttonNames = new String[buttons.size()];
         double[] buttonPrices = new double[buttons.size()];

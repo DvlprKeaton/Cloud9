@@ -17,6 +17,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_ORDERS = "orders";
     public static final String TABLE_PENDING_ORDERS = "pending_orders";
     public static final String TABLE_ORDER_NUMBER = "order_numbers";
+    public static final String TABLE_RECEIPT = "receipt";
+    public static final String TABLE_RECEIPT_NUMBER = "receipt_number";
+    public static final String TABLE_GCASH = "gcash";
 
 
 
@@ -93,6 +96,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ORDER_NUMBER_ID = "id";
     public static final String COLUMN_LAST_ORDER_NUMBER = "last_order_number";
 
+    // Pending Orders table columns
+    public static final String COLUMN_RECEIPT_ID = "id";
+    public static final String COLUMN_RECEIPT_ORDER_NUMBER= "order_number";
+    public static final String COLUMN_RECEIPT_NUMBER = "receipt_number";
+    public static final String COLUMN_RECEIPT_ORDER_QUANTITY = "order_quantity";
+    public static final String COLUMN_RECEIPT_ORDER_TYPE = "type";
+    public static final String COLUMN_RECEIPT_ORDER_DISCOUNT = "discount";
+    public static final String COLUMN_RECEIPT_ORDER_DISCOUNT_TYPE = "discount_type";
+    public static final String COLUMN_RECEIPT_ORDER_PAYMENT_TYPE = "payment_type";
+    public static final String COLUMN_RECEIPT_ORDER_PAYMENT= "payment";
+    public static final String COLUMN_RECEIPT_ORDER_TOTAL = "total";
+    public static final String COLUMN_RECEIPT_ORDER_CHANGE = "change";
+    public static final String COLUMN_RECEIPT_ORDER_ADDED_BY = "added_by";
+    public static final String COLUMN_RECEIPT_ORDER_ADDED_AT = "added_at";
+
+    //Order Number table columns
+    public static final String COLUMN_RECEIPT_NUMBER_ID = "id";
+    public static final String COLUMN_LAST_RECEIPT_NUMBER = "last_order_number";
+
+    // Pending Orders table columns
+    public static final String COLUMN_GCASH_ID = "id";
+    public static final String COLUMN_GCASH_RECEIPT_NUMBER= "receipt_number";
+    public static final String COLUMN_GCASH_ORDER_NUMBER= "order_number";
+    public static final String COLUMN_GCASH_REFERENCE_NUMBER= "reference_number";
+    public static final String COLUMN_GCASH_SENDER_NAME = "sender_name";
+    public static final String COLUMN_GCASH_SENDER_NUMBER= "sender_number";
+    public static final String COLUMN_GCASH_AMOUNT_RECEIVED = "amount_received";
+    public static final String COLUMN_GCASH_WHOLE_MESSAGE = "whole_message";
+    public static final String COLUMN_GCASH_DATE_SENT = "date_sent";
+    public static final String COLUMN_GCASH_COUNTER_RECEIVER = "counter_receiver";
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -155,7 +189,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_ORDER_TOTAL + " REAL NOT NULL, " +
                 COLUMN_ORDER_CHANGE + " REAL NOT NULL, " +
                 COLUMN_ORDER_ADDED_BY + " TEXT, " +
-                COLUMN_ORDER_ADDED_AT + "TEXT)";
+                COLUMN_ORDER_ADDED_AT + " TEXT)";
         db.execSQL(createOrdersTable);
 
     // Create the pending orders table
@@ -185,6 +219,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         orderNumberValues.put(COLUMN_LAST_ORDER_NUMBER, 1); // Set your desired initial order number
         db.insert(TABLE_ORDER_NUMBER, null, orderNumberValues);
 
+        // Create the receipts table
+        String createReceiptsTable = "CREATE TABLE " + TABLE_RECEIPT + " (" +
+                COLUMN_RECEIPT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_RECEIPT_ORDER_NUMBER + " TEXT NOT NULL, " +
+                COLUMN_RECEIPT_NUMBER + " TEXT NOT NULL, " +
+                COLUMN_RECEIPT_ORDER_QUANTITY + " INTEGER NOT NULL, " +
+                COLUMN_RECEIPT_ORDER_TYPE + " TEXT NOT NULL, " +
+                COLUMN_RECEIPT_ORDER_DISCOUNT + " REAL NOT NULL, " +
+                COLUMN_RECEIPT_ORDER_DISCOUNT_TYPE + " TEXT NOT NULL, " +
+                COLUMN_RECEIPT_ORDER_PAYMENT_TYPE + " TEXT, " +
+                COLUMN_RECEIPT_ORDER_PAYMENT + " REAL, " +
+                COLUMN_RECEIPT_ORDER_TOTAL + " REAL, " +
+                COLUMN_RECEIPT_ORDER_CHANGE + " REAL, " +
+                COLUMN_RECEIPT_ORDER_ADDED_BY + " TEXT, " +
+                COLUMN_RECEIPT_ORDER_ADDED_AT + " TEXT)";
+        db.execSQL(createReceiptsTable);
+
+
+        String createReceiptNumberTable = "CREATE TABLE " + TABLE_RECEIPT_NUMBER + " (" +
+                COLUMN_RECEIPT_NUMBER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_LAST_RECEIPT_NUMBER + " INTEGER NOT NULL)";
+        db.execSQL(createReceiptNumberTable);
+
+        // Insert the initial order number value
+        ContentValues receiptNumberValues = new ContentValues();
+        orderNumberValues.put(COLUMN_LAST_RECEIPT_NUMBER, 1); // Set your desired initial order number
+        db.insert(TABLE_RECEIPT_NUMBER, null, receiptNumberValues);
+
+        // Create the pending GCash orders table
+        String createPendingGCashOrdersTable = "CREATE TABLE " + TABLE_GCASH + " (" +
+                COLUMN_GCASH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_GCASH_RECEIPT_NUMBER + " TEXT NOT NULL, " +
+                COLUMN_GCASH_ORDER_NUMBER + " TEXT NOT NULL, " +
+                COLUMN_GCASH_REFERENCE_NUMBER + " TEXT NOT NULL, " +
+                COLUMN_GCASH_SENDER_NAME + " TEXT NOT NULL, " +
+                COLUMN_GCASH_SENDER_NUMBER + " TEXT NOT NULL, " +
+                COLUMN_GCASH_AMOUNT_RECEIVED + " REAL NOT NULL, " +
+                COLUMN_GCASH_WHOLE_MESSAGE + " TEXT NOT NULL, " +
+                COLUMN_GCASH_DATE_SENT + " TEXT NOT NULL, " +
+                COLUMN_GCASH_COUNTER_RECEIVER + " TEXT NOT NULL)";
+
+        db.execSQL(createPendingGCashOrdersTable);
+
+
     }
 
     @Override
@@ -197,6 +275,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PENDING_ORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER_NUMBER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECEIPT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECEIPT_NUMBER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GCASH);
         onCreate(db);
     }
 

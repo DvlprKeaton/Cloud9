@@ -1,0 +1,5 @@
+<!-- button_background_red.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/failed" /> <!-- Set the background color to red -->
+    <corners android:radius="8dp" /> <!-- Customize the corner radius as needed -->
+</shape>

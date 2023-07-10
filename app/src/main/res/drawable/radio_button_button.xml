@@ -1,0 +1,6 @@
+<!-- radio_button_button.xml -->
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/sub_color"
+    android:background="@drawable/selector_radio_button_button" />

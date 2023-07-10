@@ -47,7 +47,7 @@
             android:orientation="vertical"
             android:padding="16dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/light_gray">
+            android:background="@color/sub_color">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,24 +79,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- Clear Button -->
-                <Button
-                    android:id="@+id/clearButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Clear"
-                    android:layout_margin="10dp"/>
-
-                <!-- Checkout Button -->
-                <Button
-                    android:id="@+id/checkoutButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Checkout"
-                    android:layout_margin="10dp"/>
-
                 <!-- Add Item Button -->
                 <Button
                     android:id="@+id/addMenuButton"
@@ -109,5 +91,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </RelativeLayout>
+
 </LinearLayout>

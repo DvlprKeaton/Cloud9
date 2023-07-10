@@ -1,0 +1,5 @@
+<!-- button_background_green.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/success" /> <!-- Set the background color to green -->
+    <corners android:radius="8dp" /> <!-- Customize the corner radius as needed -->
+</shape>

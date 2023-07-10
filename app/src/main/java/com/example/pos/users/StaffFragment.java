@@ -25,6 +25,7 @@ import com.example.pos.DataAccess;
 import com.example.pos.DatabaseHelper;
 import com.example.pos.R;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,6 +86,8 @@ public class StaffFragment extends Fragment {
                 TextView usernameTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_NAME)), false);
                 TextView fullNameTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FUll_NAME)), false);
                 TextView statusTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS)), false);
+                TextView categoryTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)), false);
+                TextView idTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_ID)), false);
                 TextView createdAtTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_CREATED_AT)), false);
 
                 tableRow.addView(usernameTextView);
@@ -98,8 +101,11 @@ public class StaffFragment extends Fragment {
                     public void onClick(View v) {
                         // Handle row click event here
                         // You can access the username or other data using the cursor
-                        String username = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_NAME));
-                        Toast.makeText(requireContext(), "Clicked on item: " + username, Toast.LENGTH_SHORT).show();
+                        String userID = idTextView.getText().toString();
+                        String username = usernameTextView.getText().toString();
+                        String fullname = fullNameTextView.getText().toString();
+                        String category = categoryTextView.getText().toString();
+                        showUpdateDialog(username,fullname,category,userID);
                     }
                 });
 
@@ -124,46 +130,58 @@ public class StaffFragment extends Fragment {
         return textView;
     }
 
-    private void showUpdateDialog(String itemName) {
+    private void showUpdateDialog(String username, String fullname, String category,String userID) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Update Item");
+        builder.setTitle("Update User");
 
         // Inflate the custom layout for the dialog
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.update_item_dialog, null);
+        View dialogView = inflater.inflate(R.layout.update_user_dialog, null);
         builder.setView(dialogView);
 
         // Find views in the custom layout
-        EditText itemNameEditText = dialogView.findViewById(R.id.itemNameEditText);
+        EditText userName = dialogView.findViewById(R.id.usernameEditText);
+        EditText fullName = dialogView.findViewById(R.id.fullNameEditText);
+        EditText password = dialogView.findViewById(R.id.passwordEditText);
+        EditText conpassword = dialogView.findViewById(R.id.conpasswordEditText);
         itemCategorySpinner = dialogView.findViewById(R.id.itemCategorySpinner);
         // Add more views as needed
 
 
         // Set up the adapter for the category spinner
-        String[] categories = {"Beverages", "Disposables", "Food", "Ingredients", "Pastries"};
+        String[] categories = {"Staff", "Admin"};
         categoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, categories);
         itemCategorySpinner.setAdapter(categoryAdapter);
 
         // Set the current item details in the dialog
-        itemNameEditText.setText(itemName);
+        userName.setHint(username);
+        fullName.setHint(fullname);
         // Set the current category or other details
+        // Set the selected category from the database
+        String selectedCategory = category; // Replace this with the value retrieved from the database
+        int selectedCategoryIndex = Arrays.asList(categories).indexOf(selectedCategory);
+        itemCategorySpinner.setSelection(selectedCategoryIndex);
 
         builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Handle the update action
-                String updatedItemName = itemNameEditText.getText().toString();
+                String updatedUserName = userName.getText().toString();
+                String updatedFullName = fullName.getText().toString();
+                String updatedPassword = password.getText().toString();
+                String updatedConPass = conpassword.getText().toString();
                 String category = itemCategorySpinner.getSelectedItem().toString();
+                String selected = selectedCategory.trim();
 
-                if (updatedItemName.trim().isEmpty()) {
+                int updateUserID = Integer.parseInt(userID);
+
+                if (updatedUserName.trim().isEmpty() && updatedFullName.trim().isEmpty() && updatedPassword.trim().isEmpty() && updatedConPass.trim().isEmpty() && category.equals(selected)) {
                     // Item name is empty, show an error message
-                    Toast.makeText(getContext(), "Item name cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No fields to update", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Update the item in the database
-                String previousItemName = itemName.toString();
-                dataAccess.updateInventoryItem(previousItemName, updatedItemName, category, getContext());
+                dataAccess.updateStaff(updatedUserName, updatedFullName, updatedPassword,updatedConPass, category,updateUserID, getContext());
 
                 // Refresh the inventory items after updating
                 refreshInventoryItems();
