@@ -1,26 +1,64 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="100dp">
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
 
-    <!-- Add Item Name EditText -->
-    <EditText
-        android:id="@+id/itemNameEditText"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50px"
-        android:hint="Item Name"
-        android:inputType="textCapWords"/>
+        android:layout_weight="1">
 
-    <!-- Add Item Category Spinner -->
-    <Spinner
-        android:id="@+id/itemCategorySpinner"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_margin="50px"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Add Item Name EditText -->
+            <EditText
+                android:id="@+id/itemNameEditText"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_margin="50px"
+                android:hint="Item Name"
+                android:inputType="textCapWords"/>
+
+            <!-- Add Item Category Spinner -->
+            <Spinner
+                android:id="@+id/itemCategorySpinner"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_margin="50px"
+                android:layout_height="wrap_content"
+                android:hint="Category" />
+
+        </LinearLayout>
+    </ScrollView>
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Category" />
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="Cancel"
+            android:textColor="@color/primary" />
+
+        <Button
+            android:id="@+id/updateItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="Uodate Item"
+            android:textColor="@color/primary" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

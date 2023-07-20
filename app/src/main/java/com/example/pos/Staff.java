@@ -11,8 +11,10 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,6 +38,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -76,14 +79,53 @@ public class Staff extends AppCompatActivity {
                         // Start the new activity
                         Intent intentMenu = new Intent(Staff.this, Menu.class);
                         startActivity(intentMenu);
+                        Staff.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Staff.this.finish();
 
-                        // Finish the current activity
-                        finish();
                         break;
                     case R.id.inventory:
                         // Start the new activity
                         Intent intentInventory = new Intent(Staff.this, Inventory.class);
                         startActivity(intentInventory);
+                        Staff.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Staff.this.finish();
+
+                        break;
+                    case R.id.reports:
+                        // Start the new activity
+                        Intent intentReports = new Intent(Staff.this, Reports.class);
+                        startActivity(intentReports);
+                        Staff.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Staff.this.finish();
+
+                        break;
+                    case R.id.cash_drawer:
+                        // Start the new activity
+                        Intent intentCash = new Intent(Staff.this, CashDrawer.class);
+                        startActivity(intentCash);
+                        Staff.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Staff.this.finish();
+
+                        break;
+                    case R.id.transaction:
+                        // Start the new activity
+                        Intent intentTransactions = new Intent(Staff.this, Transactions.class);
+                        startActivity(intentTransactions);
+                        Staff.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Staff.this.finish();
+
+                        break;
+                    case R.id.settings:
+                        // Start the new activity
+                        Intent intentSettings = new Intent(Staff.this, Settings.class);
+                        startActivity(intentSettings);
+                        Staff.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Staff.this.finish();
+
+                        break;
+                    case R.id.logout:
+                        DataAccess dataAccess = new DataAccess(Staff.this); // Initialize the DataAccess object
+                        dataAccess.logoutUser(getApplicationContext()); // Call the logoutUser method
 
                         // Finish the current activity
                         finish();
@@ -102,6 +144,19 @@ public class Staff extends AppCompatActivity {
         addButton = findViewById(R.id.addButton);
         deleteButton = findViewById(R.id.deleteButton);
         dataAccess = new DataAccess(Staff.this);
+
+        dataAccess.getAllItems(Staff.this);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", Context.MODE_PRIVATE);
+
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        String username = sharedPreferences.getString("username", "");
+        String userRole = sharedPreferences.getString("userRole", "");
+
+        // Get the current date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        String updatedAt = currentDateTime.toString();
+        dataAccess.insertMovement(0, username, "Redirected to the Staff", updatedAt);
 
         // Set click listener for the "Add" button
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -125,74 +180,61 @@ public class Staff extends AppCompatActivity {
 
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete Item");
-        builder.setMessage("Are you sure you want to delete this item?");
+        builder.setTitle("Delete User");
+        builder.setMessage("Are you sure you want to delete this user?");
 
         // Inflate the custom layout for the dialog
         LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.delete_item_dialog, null);
+        View dialogView = inflater.inflate(R.layout.delete_user_dialog, null);
         builder.setView(dialogView);
 
         // Find views in the custom layout
-        Spinner itemNamesSpinner = dialogView.findViewById(R.id.itemNames);
-        EditText quantityTextView = dialogView.findViewById(R.id.quantityTextView);
-        Button decreaseButton = dialogView.findViewById(R.id.decreaseButton);
-        Button increaseButton = dialogView.findViewById(R.id.increaseButton);
+        Spinner userNamesSpinner = dialogView.findViewById(R.id.userNames);
+        Button deleteUser = dialogView.findViewById(R.id.deleteUser);
+        Button cancel = dialogView.findViewById(R.id.Cancel);
 
         // Set initial quantity
         final int[] quantity = {1};
-        quantityTextView.setText(String.valueOf(quantity[0]));
-
-        // Set click listeners for the decrease and increase buttons
-        decreaseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (quantity[0] > 1) {
-                    quantity[0]--;
-                    quantityTextView.setText(String.valueOf(quantity[0]));
-                }
-            }
-        });
-
-        increaseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                quantity[0]++;
-                quantityTextView.setText(String.valueOf(quantity[0]));
-            }
-        });
-
 
         // Retrieve unique item names from the database
-        List<String> uniqueItemNames = dataAccess.getUniqueItemNames();
+        List<String> uniqueItemNames = dataAccess.getUniqueUserNames();
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false); // Prevent dialog dismissal on touch outside
+        dialog.setCancelable(false); // Prevent dialog cancellation on back press
 
         // Set up the adapter for the item names spinner
         ArrayAdapter<String> itemNamesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, uniqueItemNames);
-        itemNamesSpinner.setAdapter(itemNamesAdapter);
+        userNamesSpinner.setAdapter(itemNamesAdapter);
 
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
+        deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 // Handle the delete action
-                String selectedItem = itemNamesSpinner.getSelectedItem().toString();
-                String quantityString = quantityTextView.getText().toString();
-                int quantity = Integer.parseInt(quantityString);
+                String selectedItem = userNamesSpinner.getSelectedItem().toString();
 
                 // Delete the selected item from the database
-                dataAccess.deleteInventoryItems(selectedItem, quantity, Staff.this);
+                dataAccess.deleteUser(selectedItem, Staff.this);
 
+                // Handle the intent to navigate to the Menu activity
+                Intent intentMenu = new Intent(Staff.this, Staff.class);
+                intentMenu.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intentMenu);
+                overridePendingTransition(0, 0); // Remove transition animation
+                finish();
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 // Cancel the delete action
                 dialog.dismiss();
             }
         });
 
-        AlertDialog dialog = builder.create();
         dialog.show();
     }
 
@@ -203,6 +245,8 @@ public class Staff extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.add_user_dialog);
         dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false); // Prevent dialog dismissal on touch outside
+
 
         // Find the UI elements in the dialog layout
         EditText fullNameEditText = dialog.findViewById(R.id.fullNameEditText);
@@ -211,6 +255,7 @@ public class Staff extends AppCompatActivity {
         EditText confirmPasswordEditText = dialog.findViewById(R.id.conpasswordEditText);
         Spinner itemCategorySpinner = dialog.findViewById(R.id.itemCategorySpinner);
         Button addUserButton = dialog.findViewById(R.id.addUserButton);
+        Button cancel = dialog.findViewById(R.id.Cancel);
 
         // Set up the adapter for the category spinner
         String[] categories = {"Admin", "Staff"};
@@ -254,10 +299,15 @@ public class Staff extends AppCompatActivity {
 
                 // Check the result of the insertion
                 if (newRowId != -1) {
+                    Intent intentMenu = new Intent(Staff.this, Staff.class);
+                    startActivity(intentMenu);
+                    Staff.this.overridePendingTransition(0, 0); // Remove transition animation
+                    Staff.this.finish();
                     Toast.makeText(Staff.this, "User added to the database", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(Staff.this, "Failed to add user to the database", Toast.LENGTH_SHORT).show();
                 }
+
 
                 // Dismiss the dialog
                 dialog.dismiss();
@@ -265,6 +315,15 @@ public class Staff extends AppCompatActivity {
         });
 
         // Show the dialog
+        dialog.show();
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
         dialog.show();
     }
 

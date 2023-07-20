@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/CapturedManual"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:srcCompat="@tools:sample/avatars"/>
 
     <!-- Left Navigation Bar -->
     <com.google.android.material.navigation.NavigationView
@@ -14,6 +21,16 @@
         android:layout_alignParentStart="true"
         android:visibility="visible"
         app:menu="@menu/left_nav_menu" />
+
+    <!-- Left Navigation Bar -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/staffleftNavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_alignParentStart="true"
+        android:visibility="gone"
+        app:menu="@menu/staff_left_nav_menu" />
 
 
     <!-- Main Content -->
@@ -37,7 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tabLayout"
-            android:layout_marginBottom="100dp"/>
+            android:layout_marginBottom="100dp">
+
+
+        </androidx.viewpager.widget.ViewPager>
 
         <!-- Total Price Layout -->
         <LinearLayout
@@ -87,6 +107,16 @@
                     android:layout_weight="1"
                     android:text="Add Item"
                     android:layout_margin="10dp"/>
+
+                <!-- Add Item Button -->
+                <Button
+                    android:id="@+id/addDefaultMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Add Default Menu"
+                    android:layout_margin="10dp"/>
+
 
             </LinearLayout>
 

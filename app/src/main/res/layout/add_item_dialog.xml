@@ -1,77 +1,110 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="100dp">
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Item"
-        android:layout_gravity="left"
-        android:textSize="50px"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textAllCaps="true"/>
+        android:layout_weight="1">
 
-    <!-- Add Item Name EditText -->
-    <EditText
-        android:id="@+id/itemNameEditText"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_margin="50px"
-        android:hint="Item Name"
-        android:inputType="textCapWords"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <!-- Add Item Category Spinner -->
-    <Spinner
-        android:id="@+id/itemCategorySpinner"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_margin="50px"
-        android:layout_height="wrap_content"
-        android:hint="Category" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Item"
+                android:layout_gravity="left"
+                android:textSize="50px"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textAllCaps="true"/>
 
-    <!-- Item Quantity Picker -->
+            <!-- Add Item Name EditText -->
+            <EditText
+                android:id="@+id/itemNameEditText"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_margin="50px"
+                android:hint="Item Name"
+                android:inputType="textCapWords"/>
+
+            <!-- Add Item Category Spinner -->
+            <Spinner
+                android:id="@+id/itemCategorySpinner"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_margin="50px"
+                android:layout_height="wrap_content"
+                android:hint="Category" />
+
+            <!-- Item Quantity Picker -->
+            <LinearLayout
+                android:id="@+id/quantityPickerLayout"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="50px"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/decreaseButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="-" />
+
+                <EditText
+                    android:id="@+id/quantityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="20dp"
+                    android:inputType="number"/>
+
+                <Button
+                    android:id="@+id/increaseButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="+" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!-- Buttons -->
     <LinearLayout
-        android:id="@+id/quantityPickerLayout"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="50px"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/decreaseButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="-" />
-
-        <EditText
-            android:id="@+id/quantityTextView"
+            android:id="@+id/Cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="20sp"
-            android:layout_marginHorizontal="20dp"
-            android:inputType="number"/>
+            android:background="@android:color/transparent"
+            android:text="Cancel"
+            android:textColor="@color/primary" />
 
         <Button
-            android:id="@+id/increaseButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="+" />
+            android:id="@+id/addItemButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="Confirm"
+            android:textColor="@color/primary" />
 
     </LinearLayout>
 
-    <!-- Add Button -->
-    <Button
-        android:id="@+id/addItemButton"
-        android:layout_width="250dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:text="Add" />
 
 </LinearLayout>
+

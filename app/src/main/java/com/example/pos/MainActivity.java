@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -105,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         boolean smsPermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS);
         boolean storagePermissionRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+        Log.d("Permissions", smsPermissionRationale + " - " + storagePermissionRationale);
+
         if (smsPermissionRationale || storagePermissionRationale) {
             // Show a dialog or message explaining why the permissions are needed
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -116,30 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     // Request permissions again
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-                }
-            });
-
-            builder.show();
-        } else {
-            // The user has previously denied the permission and selected "Don't ask again"
-            // Show a custom dialog explaining the situation and providing an option to grant the permission manually
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Permission Required");
-            builder.setMessage("To use this app, you need to grant SMS and Storage permissions. Please go to the app settings and enable the required permissions.");
-
-            builder.setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Open app settings
-                    openAppSettings();
-                }
-            });
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Close the app or perform any other action
-                    finish();
                 }
             });
 

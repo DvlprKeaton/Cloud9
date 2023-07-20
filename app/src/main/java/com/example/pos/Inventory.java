@@ -10,8 +10,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -38,6 +40,7 @@ import com.example.pos.menu.SparklingAdeFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +61,21 @@ public class Inventory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
 
+        dataAccess = new DataAccess(Inventory.this);
+
+        dataAccess.getAllItems(Inventory.this);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Session", Context.MODE_PRIVATE);
+
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        String username = sharedPreferences.getString("username", "");
+        String userRole = sharedPreferences.getString("userRole", "");
+
+        // Get the current date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        String updatedAt = currentDateTime.toString();
+        dataAccess.insertMovement(0, username, "Redirected to the Inventory", updatedAt);
+
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
 
@@ -76,18 +94,58 @@ public class Inventory extends AppCompatActivity {
                         // Start the new activity
                         Intent intentMenu = new Intent(Inventory.this, Menu.class);
                         startActivity(intentMenu);
+                        Inventory.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Inventory.this.finish();
 
-                        // Finish the current activity
-                        finish();
                         break;
                     case R.id.staff:
                         // Start the new activity
                         Intent intentStaff = new Intent(Inventory.this, Staff.class);
                         startActivity(intentStaff);
+                        Inventory.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Inventory.this.finish();
+
+                        break;
+                    case R.id.reports:
+                        // Start the new activity
+                        Intent intentReports = new Intent(Inventory.this, Reports.class);
+                        startActivity(intentReports);
+                        Inventory.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Inventory.this.finish();
+
+                        break;
+                    case R.id.cash_drawer:
+                        // Start the new activity
+                        Intent intentCash = new Intent(Inventory.this, CashDrawer.class);
+                        startActivity(intentCash);
+                        Inventory.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Inventory.this.finish();
+
+                        break;
+                    case R.id.transaction:
+                        // Start the new activity
+                        Intent intentTransactions = new Intent(Inventory.this, Transactions.class);
+                        startActivity(intentTransactions);
+                        Inventory.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Inventory.this.finish();
+
+                        break;
+                    case R.id.settings:
+                        // Start the new activity
+                        Intent intentSettings = new Intent(Inventory.this, Settings.class);
+                        startActivity(intentSettings);
+                        Inventory.this.overridePendingTransition(0, 0); // Remove transition animation
+                        Inventory.this.finish();
+
+                        break;
+                    case R.id.logout:
+                        DataAccess dataAccess = new DataAccess(Inventory.this); // Initialize the DataAccess object
+                        dataAccess.logoutUser(getApplicationContext()); // Call the logoutUser method
 
                         // Finish the current activity
                         finish();
                         break;
+
                     default:
                         // Handle other menu items
                         break;
@@ -101,7 +159,7 @@ public class Inventory extends AppCompatActivity {
         // Initialize the "Add" button
         addButton = findViewById(R.id.addButton);
         deleteButton = findViewById(R.id.deleteButton);
-        dataAccess = new DataAccess(Inventory.this);
+
 
         // Set click listener for the "Add" button
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +239,11 @@ public class Inventory extends AppCompatActivity {
                 // Delete the selected item from the database
                 dataAccess.deleteInventoryItems(selectedItem, quantity, Inventory.this);
 
+                Intent intentMenu = new Intent(Inventory.this, Inventory.class);
+                startActivity(intentMenu);
+                Inventory.this.overridePendingTransition(0, 0); // Remove transition animation
+                Inventory.this.finish();
+
             }
         });
 
@@ -212,6 +275,7 @@ public class Inventory extends AppCompatActivity {
         Button decreaseButton = dialog.findViewById(R.id.decreaseButton);
         Button increaseButton = dialog.findViewById(R.id.increaseButton);
         Button addItemButton = dialog.findViewById(R.id.addItemButton);
+        Button cancel = dialog.findViewById(R.id.Cancel);
 
         // Set initial quantity
         final int[] quantity = {1};
@@ -270,20 +334,31 @@ public class Inventory extends AppCompatActivity {
                 // Check the result of the insertion
                 if (newRowId != -1) {
                     // Insertion was successful
+                    Intent intentMenu = new Intent(Inventory.this, Inventory.class);
+                    startActivity(intentMenu);
+                    Inventory.this.overridePendingTransition(0, 0); // Remove transition animation
+                    Inventory.this.finish();
                     Toast.makeText(Inventory.this, "Item added to the database", Toast.LENGTH_SHORT).show();
                 } else {
                     // Insertion failed
                     Toast.makeText(Inventory.this, "Failed to add item to the database", Toast.LENGTH_SHORT).show();
                 }
 
-                // Dismiss the dialog
                 dialog.dismiss();
             }
         });
 
 
+
         // Show the dialog
         dialog.show();
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void setupViewPager() {

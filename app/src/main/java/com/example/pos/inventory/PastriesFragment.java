@@ -10,10 +10,12 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -56,25 +58,62 @@ public class PastriesFragment extends Fragment {
         refreshInventoryItems();
     }
 
+    private void addTableHeader(TableLayout tableLayout) {
+        TableRow headerRow = new TableRow(getContext());
+        headerRow.setBackgroundColor(getResources().getColor(R.color.primary));
+
+        TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+
+        TextView itemNumberHeaderTextView = new TextView(getContext());
+        itemNumberHeaderTextView.setLayoutParams(params);
+        itemNumberHeaderTextView.setText("Item #");
+        itemNumberHeaderTextView.setTextColor(getResources().getColor(R.color.black));
+        itemNumberHeaderTextView.setGravity(Gravity.CENTER);
+        itemNumberHeaderTextView.setPadding(10, 20, 10, 20);
+        itemNumberHeaderTextView.setTextSize(16);
+        itemNumberHeaderTextView.setTypeface(null, Typeface.BOLD); // Set text decoration to bold
+        headerRow.addView(itemNumberHeaderTextView);
+
+        TextView itemNameHeaderTextView = new TextView(getContext());
+        itemNameHeaderTextView.setLayoutParams(params);
+        itemNameHeaderTextView.setText("Item Name");
+        itemNameHeaderTextView.setTextColor(getResources().getColor(R.color.black));
+        itemNameHeaderTextView.setGravity(Gravity.CENTER);
+        itemNameHeaderTextView.setPadding(10, 20, 10, 20);
+        itemNameHeaderTextView.setTextSize(16);
+        itemNameHeaderTextView.setTypeface(null, Typeface.BOLD); // Set text decoration to bold
+        headerRow.addView(itemNameHeaderTextView);
+
+        TextView quantityHeaderTextView = new TextView(getContext());
+        quantityHeaderTextView.setLayoutParams(params);
+        quantityHeaderTextView.setText("Quantity");
+        quantityHeaderTextView.setTextColor(getResources().getColor(R.color.black));
+        quantityHeaderTextView.setGravity(Gravity.CENTER);
+        quantityHeaderTextView.setPadding(10, 20, 10, 20);
+        quantityHeaderTextView.setTextSize(16);
+        quantityHeaderTextView.setTypeface(null, Typeface.BOLD); // Set text decoration to bold
+        headerRow.addView(quantityHeaderTextView);
+
+        TextView dateInHeaderTextView = new TextView(getContext());
+        dateInHeaderTextView.setLayoutParams(params);
+        dateInHeaderTextView.setText("Date In");
+        dateInHeaderTextView.setTextColor(getResources().getColor(R.color.black));
+        dateInHeaderTextView.setGravity(Gravity.CENTER);
+        dateInHeaderTextView.setPadding(10, 20, 10, 20);
+        dateInHeaderTextView.setTextSize(16);
+        dateInHeaderTextView.setTypeface(null, Typeface.BOLD); // Set text decoration to bold
+        headerRow.addView(dateInHeaderTextView);
+
+        tableLayout.addView(headerRow);
+    }
+
+
     @SuppressLint("Range")
     private void refreshInventoryItems() {
         tableLayout.removeAllViews();
 
-        // Add table header row
-        TableRow headerRow = new TableRow(requireContext());
-        headerRow.setBackgroundColor(Color.parseColor("#CCCCCC"));
-
-        TextView itemNumberHeader = createTextView("Item #", true);
-        TextView itemNameHeader = createTextView("Item Name", true);
-        TextView quantityHeader = createTextView("Quantity", true);
-        TextView dateInHeader = createTextView("Date In", true);
-
-        headerRow.addView(itemNumberHeader);
-        headerRow.addView(itemNameHeader);
-        headerRow.addView(quantityHeader);
-        headerRow.addView(dateInHeader);
-
-        tableLayout.addView(headerRow);
+        // Add the table header
+        addTableHeader(tableLayout);
 
         Cursor cursor = dataAccess.getPastriesItem();
 
@@ -98,15 +137,30 @@ public class PastriesFragment extends Fragment {
         for (Map.Entry<String, Integer> entry : itemQuantities.entrySet()) {
             TableRow tableRow = new TableRow(requireContext());
 
+            TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
             TextView itemNumberTextView = createTextView(String.valueOf(itemNumber), false);
+            itemNumberTextView.setLayoutParams(params);
+
             TextView itemNameTextView = createTextView(entry.getKey(), false);
+            itemNameTextView.setLayoutParams(params);
+
             TextView quantityTextView = createTextView(String.valueOf(entry.getValue()), false);
+            quantityTextView.setLayoutParams(params);
+
             TextView dateInTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ITEM_DATE_IN)), false);
+            dateInTextView.setLayoutParams(params);
 
             tableRow.addView(itemNumberTextView);
             tableRow.addView(itemNameTextView);
             tableRow.addView(quantityTextView);
             tableRow.addView(dateInTextView);
+
+            // Set background color for alternate rows
+            if (itemNumber % 2 == 0) {
+                tableRow.setBackgroundColor(getResources().getColor(R.color.row_odd));
+            } else {
+                tableRow.setBackgroundColor(getResources().getColor(R.color.row_even));
+            }
 
             // Add OnClickListener to the row
             tableRow.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +169,6 @@ public class PastriesFragment extends Fragment {
                     // Handle row click event here
                     itemName = itemNameTextView.getText().toString();
                     showUpdateDialog(itemName);
-                    Toast.makeText(requireContext(), "Clicked on item: " + itemName, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -128,11 +181,18 @@ public class PastriesFragment extends Fragment {
         cursor.close();
     }
 
+
     private TextView createTextView(String text, boolean isHeader) {
+
+        float scale = getResources().getDisplayMetrics().density;
+        int paddingInPixels = (int) (10 * scale + 0.5f); // 10dp converted to pixels
+
         TextView textView = new TextView(requireContext());
         textView.setText(text);
         textView.setTextColor(Color.BLACK);
-        textView.setPadding(16, 16, 16, 16);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextSize(16); // Set the desired text size
+        textView.setPadding(paddingInPixels, 5, paddingInPixels, 5); // Add padding (in pixels) to the TextView
 
         if (isHeader) {
             textView.setTypeface(Typeface.DEFAULT_BOLD);
@@ -153,6 +213,8 @@ public class PastriesFragment extends Fragment {
         // Find views in the custom layout
         EditText itemNameEditText = dialogView.findViewById(R.id.itemNameEditText);
         itemCategorySpinner = dialogView.findViewById(R.id.itemCategorySpinner);
+        Button updateItem = dialogView.findViewById(R.id.updateItem);
+        Button cancel = dialogView.findViewById(R.id.Cancel);
         // Add more views as needed
 
 
@@ -160,14 +222,21 @@ public class PastriesFragment extends Fragment {
         String[] categories = {"Beverages", "Disposables", "Food", "Ingredients", "Pastries"};
         categoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, categories);
         itemCategorySpinner.setAdapter(categoryAdapter);
+        itemCategorySpinner.setSelection(4);
 
         // Set the current item details in the dialog
         itemNameEditText.setText(itemName);
         // Set the current category or other details
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false); // Prevent dialog dismissal on touch outside
+        dialog.setCancelable(false); // Prevent dialog cancellation on back press
+
+        updateItem.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 // Handle the update action
                 String updatedItemName = itemNameEditText.getText().toString();
                 String category = itemCategorySpinner.getSelectedItem().toString();
@@ -175,28 +244,27 @@ public class PastriesFragment extends Fragment {
                 if (updatedItemName.trim().isEmpty()) {
                     // Item name is empty, show an error message
                     Toast.makeText(getContext(), "Item name cannot be empty", Toast.LENGTH_SHORT).show();
-                    return;
+                } else {
+                    // Update the item in the database
+                    String previousItemName = itemName.toString();
+                    dataAccess.updateInventoryItem(previousItemName, updatedItemName, category, getContext());
+
+                    // Refresh the inventory items after updating
+                    refreshInventoryItems();
+
+                    dialog.dismiss();
                 }
-
-                // Update the item in the database
-                String previousItemName = itemName.toString();
-                dataAccess.updateInventoryItem(previousItemName, updatedItemName, category, getContext());
-
-                // Refresh the inventory items after updating
-                refreshInventoryItems();
             }
         });
 
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Cancel the update action
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
-        AlertDialog dialog = builder.create();
         dialog.show();
     }
 }

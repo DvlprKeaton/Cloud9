@@ -149,6 +149,16 @@
         android:padding="10dp">
 
         <Button
+        android:id="@+id/manualCapture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manual Input"
+        android:textColor="@color/primary"
+        android:background="@android:color/transparent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
+
+        <Button
             android:id="@+id/Confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

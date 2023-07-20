@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <solid android:color="@color/dot_color" /> <!-- Replace "dot_color" with the desired color for the dot -->
+    <size android:width="16dp" android:height="16dp" /> <!-- Adjust the size of the dot as desired -->
+</shape>

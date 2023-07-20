@@ -16,4 +16,10 @@
 
     <color name="failed">#ff4000</color>
     <color name="success">#33cc33</color>
+
+    <color name="dot_color">#FF0000</color> <!-- Replace "#FF0000" with the desired color for the dot -->
+
+    <color name="row_even">#FFFFFF</color>
+    <color name="row_odd">#d3d3d3</color>
+
 </resources>

@@ -72,10 +72,36 @@ public class SMSReceiver extends BroadcastReceiver {
                             int amountEndIndex = message.indexOf(" of GCash");
                             String receivedAmount = message.substring(amountIndex + 4, amountEndIndex).trim();
                             double fin_receivedAmount = Double.parseDouble(receivedAmount);
-                            dataAccess.insertGCash(referenceNumber, senderName, senderNumber,fin_receivedAmount,date_in,message, String.valueOf(receiptNumber()), String.valueOf(orderNumber()),username,context);
+                            dataAccess.insertGCash("GCash - " + referenceNumber, senderName, senderNumber,fin_receivedAmount,date_in,message, String.valueOf(receiptNumber()), String.valueOf(orderNumber()),username,context);
 
 
                             Toast.makeText(context, "" + receivedDate + " The Amount is: " + receivedAmount + " From " + senderName + " " + senderNumber + " with the reference no. " + referenceNumber, Toast.LENGTH_SHORT).show();
+                        }else if (sender.equals("Maya") && message.startsWith("You have received")) {
+                            String receivedDate = sms.getTimestampMillis() + "";
+                            // Find the starting position of "from "
+                            int startIndex = message.indexOf("from ") + 5;
+                            // Find the ending position of " w/"
+                            int endIndex = message.indexOf(" with");
+                            // Extract the sender information
+                            String senderInfo = message.substring(startIndex, endIndex);
+                            // Split the sender information into name and number
+                            String[] parts = senderInfo.split("\\.");
+                            // Remove spaces and asterisks from the name
+                            String senderName = parts[0].trim();
+                            // Remove spaces from the number
+                            String senderNumber = parts[1].trim();
+
+                            int refNoIndex = message.indexOf("Ref. No:");
+                            String referenceNumber = message.substring(refNoIndex + 8).trim();
+
+                            int amountIndex = message.indexOf("PHP ");
+                            int amountEndIndex = message.indexOf(" on your");
+                            String receivedAmount = message.substring(amountIndex + 4, amountEndIndex).trim();
+                            double fin_receivedAmount = Double.parseDouble(receivedAmount);
+                            //Toast.makeText(context, "" + receivedDate + " The Amount is: " + receivedAmount + " From " + senderName + " " + senderNumber + " with the reference no. " + referenceNumber, Toast.LENGTH_SHORT).show();
+                            dataAccess.insertGCash("Maya - " + referenceNumber, senderName, senderNumber,fin_receivedAmount,receivedDate, message, String.valueOf(receiptNumber()), String.valueOf(orderNumber()), username,context);
+
+                            //Toast.makeText(context, "" + receivedDate + " The Amount is: " + receivedAmount + " From " + senderName + " " + senderNumber + " with the reference no. " + referenceNumber, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

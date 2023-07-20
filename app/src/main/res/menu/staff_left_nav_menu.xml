@@ -3,8 +3,8 @@
         android:id="@+id/menu"
         android:title="Menu" />
     <item
-        android:id="@+id/inventory"
-        android:title="Inventory" />
+        android:id="@+id/cash_drawer"
+        android:title="Cash Drawer" />
     <item
         android:id="@+id/logout"
         android:title="Logout" />

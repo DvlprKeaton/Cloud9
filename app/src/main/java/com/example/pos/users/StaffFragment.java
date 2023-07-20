@@ -10,10 +10,12 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -57,59 +59,112 @@ public class StaffFragment extends Fragment {
         refreshInventoryItems();
     }
 
+    private void addTableHeader(TableLayout tableLayout) {
+        TableRow headerRow = new TableRow(getContext());
+        headerRow.setBackgroundColor(getResources().getColor(R.color.primary));
+
+        TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+
+        TextView itemNumberHeaderTextView = new TextView(getContext());
+        itemNumberHeaderTextView.setLayoutParams(params);
+        itemNumberHeaderTextView.setText("Username");
+        itemNumberHeaderTextView.setTextColor(getResources().getColor(R.color.black));
+        itemNumberHeaderTextView.setGravity(Gravity.CENTER);
+        itemNumberHeaderTextView.setPadding(10, 20, 10, 20);
+        itemNumberHeaderTextView.setTextSize(16);
+        itemNumberHeaderTextView.setTypeface(null, Typeface.BOLD); // Set text decoration to bold
+        headerRow.addView(itemNumberHeaderTextView);
+
+        TextView itemNameHeaderTextView = new TextView(getContext());
+        itemNameHeaderTextView.setLayoutParams(params);
+        itemNameHeaderTextView.setText("Fullname");
+        itemNameHeaderTextView.setTextColor(getResources().getColor(R.color.black));
+        itemNameHeaderTextView.setGravity(Gravity.CENTER);
+        itemNameHeaderTextView.setPadding(10, 20, 10, 20);
+        itemNameHeaderTextView.setTextSize(16);
+        itemNameHeaderTextView.setTypeface(null, Typeface.BOLD); // Set text decoration to bold
+        headerRow.addView(itemNameHeaderTextView);
+
+        TextView quantityHeaderTextView = new TextView(getContext());
+        quantityHeaderTextView.setLayoutParams(params);
+        quantityHeaderTextView.setText("Status");
+        quantityHeaderTextView.setTextColor(getResources().getColor(R.color.black));
+        quantityHeaderTextView.setGravity(Gravity.CENTER);
+        quantityHeaderTextView.setPadding(10, 20, 10, 20);
+        quantityHeaderTextView.setTextSize(16);
+        quantityHeaderTextView.setTypeface(null, Typeface.BOLD); // Set text decoration to bold
+        headerRow.addView(quantityHeaderTextView);
+
+        TextView dateInHeaderTextView = new TextView(getContext());
+        dateInHeaderTextView.setLayoutParams(params);
+        dateInHeaderTextView.setText("Date Created");
+        dateInHeaderTextView.setTextColor(getResources().getColor(R.color.black));
+        dateInHeaderTextView.setGravity(Gravity.CENTER);
+        dateInHeaderTextView.setPadding(10, 20, 10, 20);
+        dateInHeaderTextView.setTextSize(16);
+        dateInHeaderTextView.setTypeface(null, Typeface.BOLD); // Set text decoration to bold
+        headerRow.addView(dateInHeaderTextView);
+
+        tableLayout.addView(headerRow);
+    }
+
     @SuppressLint("Range")
     private void refreshInventoryItems() {
         tableLayout.removeAllViews();
 
-        // Add table header row
-        TableRow headerRow = new TableRow(requireContext());
-        headerRow.setBackgroundColor(Color.parseColor("#CCCCCC"));
-
-        TextView usernameHeader = createTextView("Username", true);
-        TextView fullNameHeader = createTextView("Full name", true);
-        TextView statusHeader = createTextView("Status", true);
-        TextView createdAtHeader = createTextView("Created at", true);
-
-        headerRow.addView(usernameHeader);
-        headerRow.addView(fullNameHeader);
-        headerRow.addView(statusHeader);
-        headerRow.addView(createdAtHeader);
-
-        tableLayout.addView(headerRow);
+        // Add the table header
+        addTableHeader(tableLayout);
 
         Cursor cursor = dataAccess.getStaffAccounts();
 
         if (cursor != null && cursor.moveToFirst()) {
+            int currentRow = 0;
+
             do {
                 TableRow tableRow = new TableRow(requireContext());
 
-                TextView usernameTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_NAME)), false);
-                TextView fullNameTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FUll_NAME)), false);
+                TableRow.LayoutParams params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+
+                final String userID = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_ID));
+                final String username = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_NAME));
+                final String fullname = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FUll_NAME));
+                final String category = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY));
+
+                TextView usernameTextView = createTextView(username, false);
+                usernameTextView.setLayoutParams(params);
+
+                TextView fullNameTextView = createTextView(fullname, false);
+                fullNameTextView.setLayoutParams(params);
+
                 TextView statusTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS)), false);
-                TextView categoryTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)), false);
-                TextView idTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_ID)), false);
+                statusTextView.setLayoutParams(params);
+                statusTextView.setTextColor(getResources().getColor(R.color.black)); // Set the text color to black
+
                 TextView createdAtTextView = createTextView(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USER_CREATED_AT)), false);
+                createdAtTextView.setLayoutParams(params);
 
                 tableRow.addView(usernameTextView);
                 tableRow.addView(fullNameTextView);
                 tableRow.addView(statusTextView);
                 tableRow.addView(createdAtTextView);
 
+                // Set background color for alternate rows
+                if (currentRow % 2 == 0) {
+                    tableRow.setBackgroundColor(getResources().getColor(R.color.row_even));
+                } else {
+                    tableRow.setBackgroundColor(getResources().getColor(R.color.row_odd));
+                }
+
                 // Add OnClickListener to the row
                 tableRow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Handle row click event here
-                        // You can access the username or other data using the cursor
-                        String userID = idTextView.getText().toString();
-                        String username = usernameTextView.getText().toString();
-                        String fullname = fullNameTextView.getText().toString();
-                        String category = categoryTextView.getText().toString();
-                        showUpdateDialog(username,fullname,category,userID);
+                        showUpdateDialog(username, fullname, category, userID);
                     }
                 });
 
                 tableLayout.addView(tableRow);
+                currentRow++;
             } while (cursor.moveToNext());
 
             cursor.close();
@@ -117,11 +172,20 @@ public class StaffFragment extends Fragment {
     }
 
 
+
+
+
     private TextView createTextView(String text, boolean isHeader) {
+
+        float scale = getResources().getDisplayMetrics().density;
+        int paddingInPixels = (int) (10 * scale + 0.5f); // 10dp converted to pixels
+
         TextView textView = new TextView(requireContext());
         textView.setText(text);
         textView.setTextColor(Color.BLACK);
-        textView.setPadding(16, 16, 16, 16);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextSize(16); // Set the desired text size
+        textView.setPadding(paddingInPixels, 5, paddingInPixels, 5); // Add padding (in pixels) to the TextView
 
         if (isHeader) {
             textView.setTypeface(Typeface.DEFAULT_BOLD);
@@ -145,6 +209,8 @@ public class StaffFragment extends Fragment {
         EditText password = dialogView.findViewById(R.id.passwordEditText);
         EditText conpassword = dialogView.findViewById(R.id.conpasswordEditText);
         itemCategorySpinner = dialogView.findViewById(R.id.itemCategorySpinner);
+        Button updateUser = dialogView.findViewById(R.id.updateUser);
+        Button cancel = dialogView.findViewById(R.id.Cancel);
         // Add more views as needed
 
 
@@ -162,9 +228,14 @@ public class StaffFragment extends Fragment {
         int selectedCategoryIndex = Arrays.asList(categories).indexOf(selectedCategory);
         itemCategorySpinner.setSelection(selectedCategoryIndex);
 
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false); // Prevent dialog dismissal on touch outside
+        dialog.setCancelable(false); // Prevent dialog cancellation on back press
+
+        updateUser.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 // Handle the update action
                 String updatedUserName = userName.getText().toString();
                 String updatedFullName = fullName.getText().toString();
@@ -188,16 +259,15 @@ public class StaffFragment extends Fragment {
             }
         });
 
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 // Cancel the update action
                 dialog.dismiss();
             }
         });
 
-        AlertDialog dialog = builder.create();
+
         dialog.show();
     }
 }

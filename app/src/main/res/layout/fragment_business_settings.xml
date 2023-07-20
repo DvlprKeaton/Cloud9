@@ -1,0 +1,90 @@
+<!-- fragment_profile_settings.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Business Settings"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/orderEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Order #"
+                        android:inputType="number"
+                        android:padding="8dp"
+                        android:layout_marginTop="16dp" />
+
+                    <EditText
+                        android:id="@+id/receiptEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Receipt #"
+                        android:inputType="number"
+                        android:padding="8dp"
+                        android:layout_marginTop="16dp" />
+
+                    <EditText
+                        android:id="@+id/birEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="BIR Receipt #"
+                        android:inputType="number"
+                        android:padding="8dp"
+                        android:layout_marginTop="16dp" />
+
+                    <EditText
+                        android:id="@+id/dtiEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="DTI Permit #"
+                        android:inputType="number"
+                        android:padding="8dp"
+                        android:layout_marginTop="16dp" />
+
+                    <EditText
+                        android:id="@+id/qrEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="QRCode Text"
+                        android:inputType="text"
+                        android:padding="8dp"
+                        android:layout_marginTop="16dp" />
+        </LinearLayout>
+    </ScrollView>
+    <!-- Buttons -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="@color/primary"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,156 +1,233 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="50dp">
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/itemName"
-        android:layout_width="300dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="50px"
-        android:text="Product Name"
-        android:textAlignment="center"
-        android:textSize="35dp"
-        android:textColor="@color/black"/>
+        android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <RadioGroup
-            android:id="@+id/radioGroupTemperature"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/radioButtonHot"
+            <TextView
+                android:id="@+id/itemName"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="50px"
+                android:text="Product Name"
+                android:textAlignment="center"
+                android:textSize="35dp"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:id="@+id/TempLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hot"
-                android:paddingRight="20dp"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center">
 
-            <RadioButton
-                android:id="@+id/radioButtonCold"
+                <RadioGroup
+                    android:id="@+id/radioGroupTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <RadioButton
+                        android:id="@+id/radioButtonHot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hot"
+                        android:paddingRight="20dp"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButtonCold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cold" />
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+            <!-- Item Quantity Picker -->
+            <LinearLayout
+                android:id="@+id/quantityPickerLayout"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="50px"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/decreaseButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="-" />
+
+                <EditText
+                    android:id="@+id/quantityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="20dp"
+                    android:inputType="number"/>
+
+                <Button
+                    android:id="@+id/increaseButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="+" />
+
+            </LinearLayout>
+
+            <!-- Add Item Category Spinner -->
+            <Spinner
+                android:id="@+id/orderCategorySpinner"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_margin="50px"
+                android:layout_height="wrap_content"
+                android:hint="Category"
+                android:gravity="center"
+                android:textAlignment="center"/>
+
+            <LinearLayout
+                android:id="@+id/dicountID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cold" />
+                android:orientation="horizontal"
+                android:layout_gravity="center">
 
-        </RadioGroup>
+                <RadioGroup
+                    android:id="@+id/discountGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <RadioButton
+                        android:id="@+id/seniorID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Senior"
+                        android:paddingRight="20dp"/>
+
+                    <RadioButton
+                        android:id="@+id/pwdID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PWD"
+                        android:paddingRight="20dp"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/coupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+
+                <RadioGroup
+                    android:id="@+id/couponGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <RadioButton
+                        android:id="@+id/fiveStamps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5 Stamps"
+                        android:paddingRight="20dp"/>
+
+                    <RadioButton
+                        android:id="@+id/tenStamps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10 Stamps"
+                        android:paddingRight="20dp"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Other views or elements in your layout -->
+
+                <EditText
+                    android:id="@+id/notesEditText"
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    android:hint="Enter a note here..."
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:layout_gravity="center"/>
+
+                <!-- Other views or elements in your layout -->
+
+            </LinearLayout>
 
 
-    </LinearLayout>
-    <!-- Item Quantity Picker -->
-    <LinearLayout
-        android:id="@+id/quantityPickerLayout"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="50px"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_height="wrap_content">
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- Buttons -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <Button
-            android:id="@+id/decreaseButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="-" />
-
-        <EditText
-            android:id="@+id/quantityTextView"
+            android:id="@+id/deleteMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="20sp"
-            android:layout_marginHorizontal="20dp"
-            android:inputType="number"/>
+            android:text="Delete"
+            android:textColor="@color/dot_color"
+            android:background="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true" />
 
         <Button
-            android:id="@+id/increaseButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="+" />
-
-    </LinearLayout>
-
-    <!-- Add Item Category Spinner -->
-    <Spinner
-        android:id="@+id/orderCategorySpinner"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_margin="50px"
-        android:layout_height="wrap_content"
-        android:hint="Category"
-        android:gravity="center"
-        android:textAlignment="center"/>
-
-    <LinearLayout
-        android:id="@+id/dicountID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <RadioGroup
-        android:id="@+id/discountGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <RadioButton
-            android:id="@+id/seniorID"
+            android:id="@+id/addOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Senior"
-            android:paddingRight="20dp"/>
+            android:text="Check Out"
+            android:textColor="@color/primary"
+            android:background="@android:color/transparent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
 
-        <RadioButton
-            android:id="@+id/pwdID"
+        <Button
+            android:id="@+id/Cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PWD"
-            android:paddingRight="20dp"/>
+            android:text="Cancel"
+            android:textColor="@color/primary"
+            android:background="@android:color/transparent"
+            android:layout_toLeftOf="@id/addOrder"
+            android:layout_toStartOf="@id/addOrder" />
 
-        </RadioGroup>
+    </RelativeLayout>
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/coupon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <RadioGroup
-            android:id="@+id/couponGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-
-            <RadioButton
-                android:id="@+id/fiveStamps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5 Stamps"
-                android:paddingRight="20dp"/>
-
-            <RadioButton
-                android:id="@+id/tenStamps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10 Stamps"
-                android:paddingRight="20dp"/>
-
-        </RadioGroup>
-
-    </LinearLayout>
 
 </LinearLayout>
